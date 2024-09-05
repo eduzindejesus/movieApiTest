@@ -1,0 +1,229 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Movie API",
+      "description": "API para gerenciamento de filmes"
+    },
+    "paths": {
+      "/users/register": {
+        "post": {
+          "summary": "Registrar usuário",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Usuário registrado com sucesso",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "message": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "summary": "Login do usuário",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Token gerado com sucesso",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Credenciais inválidas"
+            }
+          }
+        }
+      },
+      "/movies": {
+        "get": {
+          "summary": "Listar todos os filmes",
+          "parameters": [
+            {
+              "name": "limit",
+              "in": "query",
+              "type": "integer",
+              "description": "Número máximo de filmes a serem retornados"
+            },
+            {
+              "name": "page",
+              "in": "query",
+              "type": "integer",
+              "description": "Número da página a ser retornada"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Lista de filmes retornada com sucesso",
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Movie"
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Adicionar um filme",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "director": {
+                    "type": "string"
+                  },
+                  "year": {
+                    "type": "integer"
+                  },
+                  "genre": {
+                    "type": "string"
+                  }
+                },
+                "required": ["title", "director", "year", "genre"]
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Filme adicionado com sucesso"
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "delete": {
+          "summary": "Excluir um usuário",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Usuário excluído com sucesso"
+            },
+            "403": {
+              "description": "Não é possível excluir um usuário administrador"
+            }
+          }
+        }
+      },
+      "/admins": {
+        "post": {
+          "summary": "Criar um administrador",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": ["name", "email", "password"]
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Administrador criado com sucesso"
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "director": {
+            "type": "string"
+          },
+          "year": {
+            "type": "integer"
+          },
+          "genre": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+  
