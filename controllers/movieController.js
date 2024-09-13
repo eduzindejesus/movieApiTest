@@ -27,13 +27,20 @@ exports.getMovies = async (req, res) => {
 exports.addMovie = async (req, res) => {
   try {
     const { title, director, year, genre } = req.body;
+    const userId = req.user.id; // ID do usuário autenticado
 
     // Validação dos dados
     if (!title || !director || !year || !genre) {
       return res.status(400).json({ message: 'All fields are required' });
     }
 
-    const movie = new Movie({ title, director, year, genre });
+    const movie = new Movie({
+      title,
+      director,
+      year,
+      genre,
+      addedBy: userId, // Define o ID do usuário que está adicionando o filme
+    });
     await movie.save();
 
     res.status(201).json({ message: 'Movie added successfully', movie });
@@ -41,6 +48,7 @@ exports.addMovie = async (req, res) => {
     res.status(500).json({ message: 'Error adding movie', error: error.message });
   }
 };
+
 
 // Atualizar filme
 exports.updateMovie = async (req, res) => {
