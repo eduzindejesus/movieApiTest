@@ -6,6 +6,7 @@ const router = express.Router();
 
 router.get('/', getMovies); // Rota para listar filmes
 router.get('/rating', getMoviesByRating); // Nova rota para filtrar filmes por avaliação
+router.get('/addedBy', getMoviesWithAddedBy); // Nova rota para listar filmes e quem os adicionou
 router.post('/', authMiddleware, addMovie);
 router.put('/:id', authMiddleware, updateMovie);
 router.delete('/:id', authMiddleware, deleteMovie);
