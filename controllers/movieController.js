@@ -100,3 +100,14 @@ exports.deleteMovie = async (req, res) => {
     res.status(500).json({ message: 'Error deleting movie', error: error.message });
   }
 };
+
+// Listar filmes e o id de quem add
+exports.getMoviesWithAddedBy = async (req, res) => {
+  try {
+    const movies = await Movie.find().populate('addedBy', 'name email');
+    res.json(movies);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching movies with addedBy', error: error.message });
+  }
+};
+
